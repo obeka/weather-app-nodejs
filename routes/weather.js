@@ -18,17 +18,17 @@ router.post('/weather', async (req, res) => {
       min: data.main.temp_min,
       humidity: data.main.humidity,
       wind: data.wind.speed,
-      desc: data.weather[0].description.toUpperCase(),
+      desc: data.weather[0].description,
       name: data.name,
       windSpeed : data.wind.speed,
       sunrise: `${new Date(data.sys.sunrise).getHours()}:${new Date(data.sys.sunrise).getMinutes()}`,
-      sunset: `${new Date(data.sys.sunset).getHours()}:${new Date(data.sys.sunset).getMinutes()}`
+      sunset: `${new Date(data.sys.sunset).getHours()}:${new Date(data.sys.sunset).getMinutes()}`,
+      country: data.sys.country
     };
     const icon = {
       weatherIcon: data.weather[0].id,
       windIcon: data.wind.deg
     };
-    console.log(icon.windIcon)
     //If it is day time, icon will be sun, else it will be moon.
     const dayTime = data.dt < data.sys.sunset  ? true : false
     res.render('success', {
@@ -39,12 +39,10 @@ router.post('/weather', async (req, res) => {
   } catch (error) {
     const err = {
       status : error.response.status,
-      city: cityName,
+      city: ` - ${cityName}`,
       text: error.response.statusText
     }
-    res.render('404', {
-      err
-    })
+    res.render('404', { err })
   }
 
 });
