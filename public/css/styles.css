@@ -1,0 +1,25 @@
+ul {
+  list-style: none;
+}
+
+li {
+  font-size: 2em;
+}
+
+.sunset {
+  color: orangered;
+}
+
+.desc {
+  font-size: 22px;
+}
+
+input,button {
+  outline: none;
+}
+
+@media screen and (max-width: 1000px) {
+  li {
+    font-size: 1.3em;
+  }
+}
