@@ -21,8 +21,8 @@ router.post('/weather', async (req, res) => {
       desc: data.weather[0].description,
       name: data.name,
       windSpeed : data.wind.speed,
-      sunrise: `${new Date(data.sys.sunrise).getHours()}:${new Date(data.sys.sunrise).getMinutes()}`,
-      sunset: `${new Date(data.sys.sunset).getHours()}:${new Date(data.sys.sunset).getMinutes()}`,
+      sunrise: `${new Date(data.sys.sunrise * 1000).getHours()}:${new Date(data.sys.sunrise).getMinutes()}`,
+      sunset: `${new Date(data.sys.sunset * 1000).getHours()}:${new Date(data.sys.sunset).getMinutes()}`,
       country: data.sys.country
     };
     const icon = {
