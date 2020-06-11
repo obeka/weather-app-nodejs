@@ -10,8 +10,10 @@ router.get('/', (req, res) => {
 router.post('/weather', async (req, res) => {
   const cityName = req.body.cityName;
   try {
+    //OpenWeather API
     const response = await axios(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`)
     const data = response.data;
+    //Collecting weather information to handle
     const weatherInfo = {
       temp: data.main.temp,
       max: data.main.temp_max,
@@ -21,9 +23,10 @@ router.post('/weather', async (req, res) => {
       desc: data.weather[0].description,
       name: data.name,
       windSpeed : data.wind.speed,
-      sunrise: `${new Date(data.sys.sunrise * 1000).getHours()}:${new Date(data.sys.sunrise).getMinutes()}`,
-      sunset: `${new Date(data.sys.sunset * 1000).getHours()}:${new Date(data.sys.sunset).getMinutes()}`,
-      country: data.sys.country
+      country: data.sys.country,
+      //For local hours, need to do some math
+      sunrise: (new Date(data.sys.sunrise * 1000).getUTCHours() + data.timezone/3600 + 24) % 24 + ":" + new Date(data.sys.sunrise * 1000).getMinutes(),
+      sunset: (new Date(data.sys.sunset * 1000).getUTCHours() + data.timezone/3600 + 24) % 24 + ":" + new Date(data.sys.sunset * 1000).getMinutes()
     };
     const icon = {
       weatherIcon: data.weather[0].id,
